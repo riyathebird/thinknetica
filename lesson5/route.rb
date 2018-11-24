@@ -1,10 +1,11 @@
 require_relative 'instance_counter'
 
 class Route
+  include InstanceCounter
+  
   attr_reader :stations, :name
 
   def initialize(departure, arrival) 
-    include InstanceCounter
     @stations = [departure, arrival]
     @name = "Departure: #{departure.name} - Arrival: #{arrival.name}"
   end

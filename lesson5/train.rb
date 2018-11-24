@@ -2,21 +2,23 @@ require_relative 'manufacturer'
 require_relative 'instance_counter'
 
 class Train
+  include Manufacturer
+  include InstanceCounter
   attr_reader :number, :cars, :current_speed, :type
 
+  @@trains = []
+
   def initialize(number, type)
-    include Manufacturer
-    include InstanceCounter
     @number = number
     @type = type
     @cars = []
-    @trains = []
     @current_speed = 0
-    @trains << self
+    @@trains << self
+    register_instances
   end
 
   def self.find(number)
-    @trains.select {|train| train.number == number}
+    @@trains.select {|train| train.number == number}
   end
 
   def acceleration(speed)
