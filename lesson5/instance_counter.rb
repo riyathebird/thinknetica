@@ -5,11 +5,11 @@ module InstanceCounter
   end
 
   module ClassMethods
-
-    @@instances = 0
+    
+    attr_writer :instances
 
     def instances
-      @@instances
+      @instances ||= 0
     end  
   end  
 

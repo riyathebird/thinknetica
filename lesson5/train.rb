@@ -6,19 +6,19 @@ class Train
   include InstanceCounter
   attr_reader :number, :cars, :current_speed, :type
 
-  @@trains = {}
+  @@train = {}
 
   def initialize(number, type)
     @number = number
     @type = type
     @cars = []
     @current_speed = 0
-    @@trains[:number] = self
+    @@train[number] = self
     register_instances
   end
 
   def self.find(number)
-    @@trains[number]
+    @@train[number]
   end
 
   def acceleration(speed)
