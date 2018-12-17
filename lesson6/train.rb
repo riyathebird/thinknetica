@@ -14,6 +14,7 @@ class Train
     @cars = []
     @current_speed = 0
     @@train[number] = self
+    validate!
     register_instances
   end
 
@@ -79,8 +80,20 @@ class Train
   def remove_car(car)
     @cars.delete(car) if stopped?
   end
-    
+
+  def valid?
+    validate!
+    true
+  rescue
+    false
+  end
+
   protected 
+
+  def validate!
+    raise 'The number is empty' if @number.nil?
+    raise 'The number is not valid' if @number !~ /^[a-z0-9]{3}\-?[a-z0-9]{2}$/i
+  end
 
   def stopped?
     @current_speed = 0

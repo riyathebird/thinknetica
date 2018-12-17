@@ -7,6 +7,7 @@ class Car
     include Manufacturer
     @type = type
     @number = number
+    validate!
   end
 
   def passenger_car?

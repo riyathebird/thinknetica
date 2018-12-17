@@ -10,6 +10,7 @@ class Station
     @name = name
     @trains = []
     @@stations << self
+    validate!
     register_instances
   end
 
@@ -28,4 +29,17 @@ class Station
   def trains_by_type(type) 
     @trains.select { |train| train.type == type } 
   end
+
+  def valid?
+    validate!
+    true
+  rescue
+    false
+  end
+
+protected
+
+  def validate!
+    raise 'The station name is too short' if name.size < 2
+  end  
 end  

@@ -8,6 +8,7 @@ class Route
   def initialize(departure, arrival) 
     @stations = [departure, arrival]
     @name = "Departure: #{departure.name} - Arrival: #{arrival.name}"
+    validate!
   end
 
   def add(station) 
@@ -20,5 +21,18 @@ class Route
 
   def all_stations 
     @stations.each { |station| puts station }
+  end
+
+  def valid?
+    validate!
+    true
+  rescue
+    false
+  end
+
+  protected
+
+  def validate!
+    raise 'Stations are equal' if @stations.first == @stations.last
   end
 end 
