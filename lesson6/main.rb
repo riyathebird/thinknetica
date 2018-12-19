@@ -13,37 +13,45 @@ require_relative 'cargo_car'
   @routes = []
 
 def create_a_station 
-  puts "Enter the station name:"
-  station_name = gets.chomp
-  if @stations.map {|station| station.name }.include?(station_name)
-    puts "This station is already exist"
-  else  
-    station = Station.new(station_name)
+
+  begin
+    puts "Enter the station name:"
+    station_name = gets.chomp
+    if @stations.map {|station| station.name }.include?(station_name)
+      puts "This station is already exist"
+    else  
+      station = Station.new(station_name)
+    end  
+  rescue Exception => e
+    puts e
+    retry
     @stations << station  
     puts "The station is created"
-  end
+  end  
 end
 
-def create_a_train
-  puts "Enter the train's number:"
-  number = gets.to_i
-  if @trains.map {|train| train.number }.include?(number)
-    puts "This train's number is already exist"
-  else  
-    puts "Print \"1\" for passenger or \"2\" for cargo train's type"
-    type = gets.chomp
-    if type == "1"
-      train = PassengerTrain.new(number)
-      @trains << train
-      puts "The passenger train number #{number} is created"
-    elsif type == "2"
-      train = CargoTrain.new(number)
-      @trains << train 
-      puts "The cargo train number #{number} is created" 
-    else
-      puts "Print \"1\" or \"2\" for the type"
-    end      
-  end
+def create_a_train 
+
+  begin
+    puts "Enter the train's number:"
+    number = gets.to_i
+    if @trains.map {|train| train.number }.include?(number)
+      puts "This train's number is already exist"
+    else  
+      puts "Print \"1\" for passenger or \"2\" for cargo train's type"
+      type = gets.chomp
+      case type
+      when "1"  
+        train = PassengerTrain.new(number)
+      when "2"
+        train = CargoTrain.new(number)
+      end  
+  rescue Exception => e
+    puts e
+    retry
+    @trains << train
+    puts "The train number #{number} is created"
+  end  
 end
 
 def create_a_route
