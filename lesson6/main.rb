@@ -52,11 +52,11 @@ private
 
     begin
       puts "Enter the station name:"
-      station_name = gets.chomp
+      @station_name = gets.chomp
       if station_exists?
         puts "This station is already exist"
       else  
-        @stations << Station.new(station_name)
+        @stations << Station.new(@station_name)
         puts "The station is created"
       end  
     rescue Exception => e
@@ -78,13 +78,13 @@ private
 
     begin
       puts "Enter the train's number:"
-      number = gets.to_i
+      @number = gets.to_i
       if train_exists?
         puts "This train's number is already exist"
       else  
         puts "Print \"1\" for passenger or \"2\" for cargo train's type"
         type = gets.chomp
-        create_a_train!(number, type)
+        create_a_train!(@number, type)
         puts "The train number #{number} is created"  
       end  
     rescue Exception => e
@@ -277,11 +277,11 @@ private
   end  
 
   def station_exists?
-    @stations.map {|station| station.name }.include?(station_name)
+    @stations.map {|station| station.name }.include?(@station_name)
   end  
 
   def train_exists?
-    @trains.map {|train| train.number }.include?(number)
+    @trains.map {|train| train.number }.include?(@number)
   end  
 end    
 
