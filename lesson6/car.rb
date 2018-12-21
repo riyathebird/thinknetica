@@ -1,10 +1,10 @@
 require_relative 'manufacturer'
 
 class Car
+  include Manufacturer
   attr_reader :type, :number
 
   def initialize(type, number)
-    include Manufacturer
     @type = type
     @number = number
     validate!
