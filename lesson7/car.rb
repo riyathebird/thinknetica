@@ -4,9 +4,10 @@ class Car
   include Manufacturer
   attr_reader :type, :number
 
-  def initialize(type, number)
+  def initialize(type, number, space)
     @type = type
     @number = number
+    @space = space
     validate!
   end
 
