@@ -18,6 +18,6 @@ class PassengerCar < Car
   end
 
   def empty_seats
-    @space - @taken_seats
+    return @space - @taken_seats
   end
 end

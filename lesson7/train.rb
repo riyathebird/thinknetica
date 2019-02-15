@@ -89,7 +89,7 @@ class Train
     false
   end
 
-  def each_cars
+  def each_car
     @cars.each { |car| yield(car) }
   end  
 
