@@ -22,16 +22,14 @@ class Main
       puts "Put 2 to create a train"
       puts "Put 3 to create a route"
       puts "Put 4 to set a route to the train"
-      puts "Put 5 to read a list of stations and trains"
-      puts "Put 6 to add the car"
-      puts "Put 7 to remove the car"  
-      puts "Put 8 to add a station in the route" 
-      puts "Put 9 to remove a station in the route"
-      puts "Put 10 to move the train forward"
-      puts "Put 11 to move the train backward"
-      puts "Put 12 to display trains on the station list"
-      puts "Put 13 to display cars on the train list"
-      puts "Put 14 to take a space in the car"
+      puts "Put 5 to add the car"
+      puts "Put 6 to remove the car"  
+      puts "Put 7 to add a station in the route" 
+      puts "Put 8 to remove a station in the route"
+      puts "Put 9 to move the train forward"
+      puts "Put 10 to move the train backward"
+      puts "Put 11 to display full trains information on all stations"
+      puts "Put 12 to take a space in the car"
       puts "To continue put a number of your next step, otherwise put \"exit\""
 
       input = gets.chomp
@@ -39,16 +37,14 @@ class Main
       create_a_train if input == "2" 
       create_a_route if input == "3" 
       set_a_route if input == "4" 
-      get_a_list if input == "5"
-      cars_add if input == "6"
-      cars_delete if input == "7"
-      add_a_station if input == "8"
-      remove_a_station if input == "9"
-      move_forward if input == "10"
-      move_backward if input == "11"
-      trains_on_station_list if input == "12"
-      cars_on_train_list if input == "13"
-      take_a_space if input == "14"
+      cars_add if input == "5"
+      cars_delete if input == "6"
+      add_a_station if input == "7"
+      remove_a_station if input == "8"
+      move_forward if input == "9"
+      move_backward if input == "10"
+      trains_on_station_list if input == "11"
+      take_a_space if input == "12"
       break if input == "exit"
     end
   end  
@@ -260,32 +256,21 @@ private
       @stations.each do |station| 
         puts "Station name: #{station.name}"
         station.each_train do |train| 
-          puts "Trains on this station: #{train.number}"
+          puts "#{train.type} train number: #{train.number}, cars: #{train.cars.size} "
+          train.each_car do |car| 
+            if car.passenger_car?
+              puts "Car number: #{car.number}, available seats: #{car.free_space}"
+              puts "taken seats:#{car.taken_space}"
+            else
+              puts "Car number: #{car.number}, available volume: #{car.free_space}"
+              puts "taken volume: #{car.taken_space}"
+            end
+          end  
         end
       end
     else  
       puts "Create a train and a station first"
     end  
-  end
-
-  def cars_on_train_list
-    if !@trains.empty? && !@cars.empty? 
-      display_trains
-      train = gets.to_i
-      train = @trains[train - 1]  
-      puts "Train type: #{train.type}, train number: #{train.number}, cars amount: #{train.cars.size}"
-      train.each_car do |car|
-        if car.passenger_car?
-          puts "#{car.type} car number #{car.number} available seats: #{car.empty_seats}"
-          puts "taken seats are #{car.taken_seats}"
-        else
-          puts "#{car.type} car number #{car.number} available volume: #{car.empty_volume}"
-          puts "taken volume: #{car.taken_volume}"
-        end
-      end  
-    else
-      puts "Create a train with cars first"
-    end       
   end
 
   def take_a_space
@@ -296,9 +281,13 @@ private
       display_cars
       car = gets.to_i - 1
       if train.cars[car].passenger_car?
-        train.cars[car].take_a_seat
-      else
         train.cars[car].take_a_space
+        puts "The seat is taken"
+      else
+        puts "Insert the volume you want to take"
+        volume = gets.to_i
+        train.cars[car].take_a_space(volume)
+        puts "The volume is taken"
       end   
     else
       puts "Create a train with cars first"
