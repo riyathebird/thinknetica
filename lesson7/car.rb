@@ -2,12 +2,13 @@ require_relative 'manufacturer'
 
 class Car
   include Manufacturer
-  attr_reader :type, :number, :space
+  attr_reader :type, :number, :space, :taken_space
 
   def initialize(type, number, space)
     @type = type
     @number = number
     @space = space
+    @taken_space = 0
     validate!
   end
 
@@ -24,6 +25,15 @@ class Car
     true
   rescue
     false
+  end
+
+  def take_a_space(space)
+    @taken_space += space
+    raise "All space is taken" if @taken_space > @space
+  end
+
+  def free_space
+    @space - @taken_space
   end
 
 protected
