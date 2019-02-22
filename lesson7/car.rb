@@ -27,9 +27,10 @@ class Car
     false
   end
 
-  def take_a_space(space = 1)
-    @taken_space += space
-    raise "All space is taken" if @taken_space > @space
+  def take_a_space(unit)
+    if @taken_space < @space && unit <= @space
+      @taken_space += unit
+    end  
   end
 
   def free_space

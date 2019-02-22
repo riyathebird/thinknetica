@@ -309,7 +309,7 @@ private
   end
 
   def display_cars
-    @cars.each_with_index { |car, index| puts "index: #{index + 1} - car number: #{car.number}" }
+    @cars.each_with_index { |car, index| puts "index: #{index + 1} - #{car.type} car number: #{car.number}" }
   end  
 
   def station_exists?(station_name)
