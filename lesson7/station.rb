@@ -1,12 +1,12 @@
 require_relative 'instance_counter'
-
+# describe stations on the route
 class Station
   include InstanceCounter
   attr_reader :name, :trains
 
   @@stations = []
 
-  def initialize(name) 
+  def initialize(name)
     @name = name
     @trains = []
     @@stations << self
@@ -16,34 +16,34 @@ class Station
 
   def self.all
     @@stations
-  end  
+  end
 
-  def arrivals(train) 
+  def arrivals(train)
     @trains << train
   end
-  
-  def departures(train) 
+
+  def departures(train)
     @trains.delete(train)
   end
 
-  def trains_by_type(type) 
-    @trains.select { |train| train.type == type } 
+  def trains_by_type(type)
+    @trains.select { |train| train.type == type }
   end
 
   def valid?
     validate!
     true
-  rescue
+  rescue StandartError
     false
   end
 
   def each_train
     @trains.each { |train| yield(train) }
-  end  
+  end
 
-protected
+  protected
 
   def validate!
     raise 'The station name is too short' if name.size < 2
-  end  
-end  
+  end
+end

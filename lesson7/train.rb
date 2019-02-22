@@ -1,6 +1,6 @@
 require_relative 'manufacturer'
 require_relative 'instance_counter'
-
+# describe the train behavior
 class Train
   include Manufacturer
   include InstanceCounter
@@ -26,15 +26,15 @@ class Train
   def acceleration(speed)
     @current_speed += speed
   end
-  
+
   def stop(speed)
     @current_speed -= speed
-    @current_speed = 0 if @current_speed < 0 
+    @current_speed = 0 if @current_speed < 0
   end
 
   def get_the_route(route)
     @route = route
-    @current_station = 0 
+    @current_station = 0
     current_station.arrivals(self)
   end
 
@@ -42,7 +42,7 @@ class Train
     if next_station
       current_station.departures(self)
       @current_station += 1
-      current_station.arrivals(self) 
+      current_station.arrivals(self)
     end
   end
 
@@ -50,13 +50,13 @@ class Train
     if previous_station
       next_station.departures(self)
       @current_station -= 1
-      current_station.arrivals(self) 
+      current_station.arrivals(self)
     end
   end
 
-  def current_station 
+  def current_station
     @route.stations[@current_station]
-  end  
+  end
 
   def next_station
     @route.stations[@current_station + 1] unless last_station?
@@ -67,11 +67,11 @@ class Train
   end
 
   def cargo?
-    type == "cargo"
+    type == 'cargo'
   end
 
   def passenger?
-    type == "passenger"
+    type == 'passenger'
   end
 
   def add_car(car)
@@ -85,24 +85,24 @@ class Train
   def valid?
     validate!
     true
-  rescue
+  rescue StandartError
     false
   end
 
   def each_car
     @cars.each { |car| yield(car) }
-  end  
+  end
 
-  protected 
+  protected
 
   def validate!
     raise 'The number is empty' if @number.nil?
-    raise 'The number is not valid' if @number !~ NUMBER_VALID 
+    raise 'The number is not valid' if @number !~ NUMBER_VALID
   end
 
   def stopped?
     @current_speed = 0
-  end    
+  end
 
   def last_station?
     @current_station == @route.stations.last
