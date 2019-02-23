@@ -6,7 +6,7 @@ require_relative 'passenger_train'
 require_relative 'car'
 require_relative 'passenger_car'
 require_relative 'cargo_car'
-#main class to launch
+# main class to launch
 class Main
   def initialize
     @stations = []
@@ -307,11 +307,11 @@ class Main
   end
 
   def station_exists?(station_name)
-    @stations.map { |station| station.name }.include?(station_name)
+    @stations.map(&:name).include?(station_name)
   end
 
   def train_exists?(number)
-    @trains.map { |train| train.number }.include?(number)
+    @trains.map(&:number).include?(number)
   end
 end
 
