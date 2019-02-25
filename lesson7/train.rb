@@ -4,10 +4,10 @@ require_relative 'instance_counter'
 class Train
   include Manufacturer
   include InstanceCounter
+  NUMBER_VALID = /^[a-z0-9]{3}\-?[a-z0-9]{2}$/i
   attr_reader :number, :cars, :current_speed, :type
 
   @@train = {}
-  NUMBER_VALID = /^[a-z0-9]{3}\-?[a-z0-9]{2}$/i
 
   def initialize(number, type)
     @number = number

@@ -112,12 +112,12 @@ class Main
 
   def set_a_route
     if !@trains.empty? && !@routes.empty?
-      display_trains
-      train = gets.to_i
+      train = display_trains
+      train = @trains[train - 1]
       display_routes
       route = gets.to_i
-      if !@trains[train - 1].nil? && !@routes[route - 1].nil?
-        @trains[train - 1].get_the_route(@routes[route - 1])
+      if !train.nil? && !@routes[route - 1].nil?
+        train.get_the_route(@routes[route - 1])
         puts 'The route is set'
       else
         puts 'Choose the correct index for the train and the route'
@@ -163,41 +163,60 @@ class Main
     end
   end
 
+  # car addition methods:
   def cars_add
     if !@trains.empty?
-      display_trains
-      train = gets.to_i
+      train = display_trains
       train = @trains[train - 1]
-      if !train.nil? && train.passenger?
-        puts 'Enter the car number'
-        car_number = gets.to_i
-        puts 'Enter the number of seats'
-        seats = gets.to_i
-        passenger_car = PassengerCar.new(car_number, seats)
-        train.add_car(passenger_car)
-        @cars << passenger_car
-        puts 'The car is added to a passenger train'
-      elsif !train.nil? && train.cargo?
-        puts 'Enter the car number'
-        car_number = gets.to_i
-        puts 'Enter the car volume'
-        volume = gets.to_i
-        cargo_car = CargoCar.new(car_number, volume)
-        train.add_car(cargo_car)
-        @cars << cargo_car
-        puts 'The car is added to a cargo train'
-      else
-        puts 'Enter the correct train index'
-      end
+      cars_condition(train)
     else
       puts 'Create a train first'
     end
   end
 
+  def cars_condition(train)
+    if !train.nil? && train.passenger?
+      create_a_passenger_car(train)
+    elsif !train.nil? && train.cargo?
+      create_a_cargo_car(train)
+    else
+      puts 'Enter the correct train index'
+    end
+  end
+
+  def query_car_number
+    puts 'Enter the car number'
+    gets.to_i
+  end
+
+  def query_seats_number
+    puts 'Enter the number of seats'
+    gets.to_i
+  end
+
+  def query_volume_amount
+    puts 'Enter the car volume'
+    gets.to_i
+  end
+
+  def create_a_passenger_car(train)
+    passenger_car = PassengerCar.new(query_car_number, query_seats_number)
+    train.add_car(passenger_car)
+    @cars << passenger_car
+    puts 'The car is added to a passenger train'
+  end
+
+  def create_a_cargo_car(train)
+    cargo_car = CargoCar.new(query_car_number, query_volume_amount)
+    train.add_car(cargo_car)
+    @cars << cargo_car
+    puts 'The car is added to a cargo train'
+  end
+
+  # car deletions methods:
   def cars_delete
     if !@trains.empty? && !@cars.empty?
-      display_trains
-      train = gets.to_i
+      train = display_trains
       train = @trains[train - 1]
       puts 'Select a car index you want to remove from the list:'
       display_cars
@@ -217,10 +236,10 @@ class Main
 
   def move_forward
     if !@trains.empty?
-      display_trains
-      train = gets.to_i
-      if !@trains[train - 1].nil?
-        @trains[train - 1].moves_forward
+      train = display_trains
+      train = @trains[train - 1]
+      if !train.nil?
+        train.moves_forward
         puts 'The train moves forward'
       else
         puts 'Enter the correct train index'
@@ -232,10 +251,10 @@ class Main
 
   def move_backward
     if !@trains.empty?
-      display_trains
-      train = gets.to_i
-      if !@trains[train - 1].nil?
-        @trains[train - 1].moves_backward
+      train = display_trains
+      train = @trains[train - 1]
+      if !train.nil?
+        train.moves_backward
         puts 'The train moves backward'
       else
         puts 'Enter correct train index'
@@ -269,8 +288,7 @@ class Main
 
   def take_a_space
     if !@cars.empty? && !@trains.empty?
-      display_trains
-      train = gets.to_i
+      train = display_trains
       train = @trains[train - 1]
       display_cars
       car = gets.to_i - 1
@@ -291,6 +309,7 @@ class Main
   def display_trains
     puts 'Select the train index from the list:'
     @trains.each_with_index { |train, index| puts "index: #{index + 1} -  train number: #{train.number}" }
+    gets.to_i
   end
 
   def display_stations
