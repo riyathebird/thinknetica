@@ -1,0 +1,11 @@
+Metrics/LineLength:
+  Max: 90
+
+Style/Documentation:
+  Enabled: false
+
+Metrics/MethodLength:
+  Max: 15
+
+Style/EndOfLine:
+  EnforcedStyle: lf
